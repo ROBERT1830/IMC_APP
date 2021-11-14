@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">MyIMC</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_peso">Peso (Kg)</string>
+    <string name="hint_height">Altura (cm)</string>
+    <string name="text_men">Hombre</string>
+    <string name="text_women">Mujer</string>
+    <string name="text_woman">Mujer</string>
+    <string name="txt_save">Guardar</string>
+    <string name="hint_name">Nombre</string>
+    <string name="peso1">Perso inferior al normal</string>
+    <string name="peso2">Normal</string>
+    <string name="peso3">Sobrepeso</string>
+    <string name="peso4">Obesidad</string>
+    <string name="txt_calcular">Calcular IMC</string>
+    <string name="helper_wight">Peso(kg)</string>
+    <string name="txt_height">Altura (cm)</string>
+    <string name="txt_weight">Peso (Kg)</string>
+    <string name="required">Campo requerido</string>
+    <string name="save_succesfully">Datos guardados con éxito</string>
+    <string name="calculate_needed_data">Se necesitan campos para calcular</string>
+    <string name="need_sada_for_save">Se necesitan campos guardar</string>
+
+
+    <string name="dialog_delete_confirm">Eliminar</string>
+    <string name="dialog_delete_title">¿Eliminar dato?</string>
+    <string name="dialog_delete_cancel">Cancelar</string>
+    <string name="dialog_contact_email">Contactar por email</string>
+
+    <string name="dialog_options_menu">¿Qué desea hacer?</string>
+
+
+
+</resources>
