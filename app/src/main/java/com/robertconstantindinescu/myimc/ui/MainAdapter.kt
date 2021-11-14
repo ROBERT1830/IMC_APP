@@ -87,9 +87,9 @@ class MainAdapter(private val context: Context, private var listaImc: List<ImcEn
                  * Listener para hacer la edición de los datos de un elemento seleccionado en
                  * particular.
                  */
-                setOnClickListener {
-                    itemClickListener.onImcItemClicl(imc, position)
-                }
+//                setOnClickListener {
+//                    itemClickListener.onImcItemClicl(imc, position)
+//                }
                 /**
                  * Listener para hacer la eliminación del elemento seleccionado
                  * Esta interfaz, la implementa el MainFragment para hacer la eliminación

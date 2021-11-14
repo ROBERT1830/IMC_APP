@@ -67,6 +67,13 @@ class MainFragment : Fragment(), MainAdapter.OnItemClickListener {
     ): View? {
         //Inflamos el fragment
         mBinding = FragmentMainBinding.inflate(inflater, container, false)
+
+
+        //Función que setea el recicler view.
+        setupRecyclerView()
+        //Función que setea los observadores de LiveData del viewModel. (Explicado bajo)
+        //setUpObservers()
+
         //retornamos la raíz
         return mBinding.root
 //
@@ -77,20 +84,26 @@ class MainFragment : Fragment(), MainAdapter.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         //Función que setea el recicler view.
-        setupRecyclerView()
-        //Función que setea los observadores de LiveData del viewModel. (Explicado bajo)
-        setUpObservers()
+//        setupRecyclerView()
+//        //Función que setea los observadores de LiveData del viewModel. (Explicado bajo)
+
         //Cuando pulsamos el fab, navegamos al fragment en cuestion
         /**
          * Resulta que si pulsamos el fab, iniciamos el fragment de calcular, pero con un
          * objeto vacio. Esto nos permitira poder hacer la función de añadir.
          * para editar (más abajo) pasaremos el objeto en cuestión.
          */
-        val bundle = Bundle()
-        bundle.putParcelable("imc", ImcEntity())
-        mBinding.fabAddCalcul.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_calculatorFragment, bundle)
-        }
+//        val bundle = Bundle()
+//        bundle.putParcelable("imc", ImcEntity())
+//        mBinding.fabAddCalcul.setOnClickListener {
+//            findNavController().navigate(R.id.action_mainFragment_to_calculatorFragment, bundle)
+//        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setUpObservers()
+
     }
 
 
