@@ -13,7 +13,7 @@ import com.robertconstantindinescu.myimc.domain.ImcDao
 /*Usamos la etiqueta @Database para indicar que esta clase será la que defina nuestra bd.
 * las entidades las pasamos en forma de array a pesar de que solo tenemos una. La versión es la 1
 * y le decimos que queremos tener un historial de la bse de datos. En caso de hacer futuros cambios de version etc..*/
-@Database(entities = arrayOf(ImcEntity::class), version = 1, exportSchema = true)
+@Database(entities = arrayOf(ImcEntity::class), version = 2, exportSchema = true)
 //Al hacer esta clase abstracta lo que vamos a tener que hacer es extender de roomdatabase
 //* para decirle a room que esta clase sera el punto de partida en la creacion de la instanica de
 // room para poner los datos e irlso a buscar.

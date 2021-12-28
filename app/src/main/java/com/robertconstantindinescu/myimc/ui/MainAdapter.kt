@@ -20,7 +20,7 @@ class MainAdapter(private val context: Context, private var listaImc: List<ImcEn
 
     //intefáz para gestionar los clics en cada uno de los items del recycler.
     interface OnItemClickListener {
-        fun onImcItemClicl(imcEntity: ImcEntity, position: Int)
+        fun onImcItemClicl(imcEntity: ImcEntity)
         fun onDeleteImc(imc: ImcEntity, position: Int)
     }
 
@@ -78,6 +78,7 @@ class MainAdapter(private val context: Context, private var listaImc: List<ImcEn
                 tvSexo.text = imc.sexo
                 tvPeso.text = imc.peso.toString()
                 tvAltura.text = imc.altura.toString()
+                tvDate.text = imc.fecha
             }
 
         }
@@ -98,6 +99,10 @@ class MainAdapter(private val context: Context, private var listaImc: List<ImcEn
                     itemClickListener.onDeleteImc(imc, position)
                     true
 
+                }
+
+                setOnClickListener {
+                    itemClickListener.onImcItemClicl(imc)
                 }
             }
         }

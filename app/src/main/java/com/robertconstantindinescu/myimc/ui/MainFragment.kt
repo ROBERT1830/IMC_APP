@@ -30,11 +30,11 @@ class MainFragment : Fragment(), MainAdapter.OnItemClickListener {
 
     //Inlcuir el viewBindig para encontrar los disitintos elementos de la vista
     private lateinit var mBinding: FragmentMainBinding
+
     //instancia lateinit del adapter para usarlo posteriormente. Se inicializa más tarde
     private lateinit var mAdapter: MainAdapter
     private lateinit var lista: List<ImcEntity>
     private var txt: String? = null
-
 
 
     //Inicialización del viewModel usando inyección de dependencias. Si nos vijamos en la clase
@@ -42,9 +42,12 @@ class MainFragment : Fragment(), MainAdapter.OnItemClickListener {
     * instancia del repositorio asi tal cual como una  interfaz. Entonces usamos una clase como
     * auxiliar llamada VMFFactory para contruir una clase a partir de esa interfaz y que si que podremos
     * pasar como parametro en el constructor. */
-    private val viewModel by viewModels<MainViewModel> { VMFactory(
-        RepoImpl(
-            DataSource(AppDatabase.getDatabase(requireActivity().application))))
+    private val viewModel by viewModels<MainViewModel> {
+        VMFactory(
+            RepoImpl(
+                DataSource(AppDatabase.getDatabase(requireActivity().application))
+            )
+        )
         /*Esta inicialización lo que está haciendo es decir. Como yo soy un fragment que va a buscar
         * la lista de información al viewModel (patrón mvvm), tengo que generar ya la ruta de acceso a
         * esa info. Por lo tanto, voy a inicializar esa ruta, diciendo de dónde cogeré los datos yo
@@ -71,11 +74,20 @@ class MainFragment : Fragment(), MainAdapter.OnItemClickListener {
         //Inflamos el fragment
         mBinding = FragmentMainBinding.inflate(inflater, container, false)
 
+        if (arguments?.getString("str") != null) {
+            Snackbar.make(
+                mBinding.root,
+                "${requireArguments().getString("str")} (${requireArguments().getString("str2")})",
+                Snackbar.LENGTH_SHORT
+            ).show()
+        }
+
 
         //Función que setea el recicler view.
         setupRecyclerView()
         //Función que setea los observadores de LiveData del viewModel. (Explicado bajo)
         //setUpObservers()
+
 
         //retornamos la raíz
         return mBinding.root
@@ -117,7 +129,6 @@ class MainFragment : Fragment(), MainAdapter.OnItemClickListener {
     }
 
 
-
     private fun setupRecyclerView() {
         //Inicializamos el adaptador, pasando el contexto, una lista vacia y la interfáz
         //que es this pq esta misma clase implementa la interfáz del adaptador que define el click.
@@ -151,9 +162,9 @@ class MainFragment : Fragment(), MainAdapter.OnItemClickListener {
         * Cuando eso pasa, el observer se guarda en una pila y cuando se necesite otra vez se vuele a usar
         * evitando ser creado desde cero otra vez. */
 
-        viewModel.getAllImc().observe(viewLifecycleOwner,  {
+        viewModel.getAllImc().observe(viewLifecycleOwner, {
 
-            when(it){
+            when (it) {
                 //el tipo de dato que se nos devuelve es del tipo Resource<List<ImcEntity>>.
                 //Esta era una sealed class, con lo que en función del tipo de dato
                 //haremos una cosa u otra.
@@ -169,9 +180,11 @@ class MainFragment : Fragment(), MainAdapter.OnItemClickListener {
                     * pero si nos fijamos en el constructor del adapter, el no puede recibir ese tiepo de
                     * datos, sino una lista normal. Con lo cual usaremos la claususla map
                     * para crear una lista de objetos ImcEntity a partir de los datos obtenidos en el it*/
-                     lista = it.data.map {
-                        ImcEntity(it.imcId, it.nombre, it.peso, it.altura, it.sexo, it.resultadoNum,
-                            it.resultadoInfo)
+                    lista = it.data.map {
+                        ImcEntity(
+                            it.imcId, it.nombre, it.peso, it.altura, it.sexo, it.resultadoNum,
+                            it.resultadoInfo, it.fecha
+                        )
                     }
                     Log.d("LISTA", lista.toString())
                     //Esa lista creada automaticametnen por el map, la pasamos aqui al adapter.
@@ -189,12 +202,19 @@ class MainFragment : Fragment(), MainAdapter.OnItemClickListener {
      * mismo fragmento que usamos para añadir datos, pero ahora pasando los datos
      * del objeto seleccionado como argumentos.
      */
-    override fun onImcItemClicl(imcEntity: ImcEntity, position: Int) {
-        val bundle = Bundle()
-        bundle.putParcelable("imc", imcEntity)
-        findNavController().navigate(R.id.action_mainFragment_to_calculatorFragment, bundle)
+    override fun onImcItemClicl(imcEntity: ImcEntity) {
+//        val bundle = Bundle()
+//        bundle.putParcelable("imc", imcEntity)
+//        findNavController().navigate(R.id.action_mainFragment_to_calculatorFragment, bundle)
+
+        Snackbar.make(
+            mBinding.root,
+            "${imcEntity.resultadoInfo} (${imcEntity.resultadoNum})",
+            Snackbar.LENGTH_SHORT
+        ).show()
 
     }
+
 
     override fun onDeleteImc(imc: ImcEntity, position: Int) {
         //Nos preparamos un array de strings con las opciones a mostrar
@@ -217,28 +237,28 @@ class MainFragment : Fragment(), MainAdapter.OnItemClickListener {
     }
 
     private fun goToEmail() {
-        TODO("Not yet implemented")
+        return
     }
 
-    fun confirmDeleteAction(imc: ImcEntity){
+    fun confirmDeleteAction(imc: ImcEntity) {
         //construimos el dialog de confirmación
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.dialog_delete_title)
-                //seteamos el boton positivo con su titulo y la función respectiva-
+            //seteamos el boton positivo con su titulo y la función respectiva-
             .setPositiveButton(R.string.dialog_delete_confirm,
-                DialogInterface.OnClickListener{ //si pulsa esta opcion haremos uso de una interfaz
+                DialogInterface.OnClickListener { //si pulsa esta opcion haremos uso de una interfaz
                     //para gestionar la acción.
-                    dialogInterface, which ->
+                        dialogInterface, which ->
                     //eliminamos el registro imc de la base de datos y se lo notificamos al adapter
                     //para que haga cambios en el recycler. La notificación viene data por una nueva
                     //llamada a setUpObservers() que recopila nuevamente los datos de la bd acutalizada
                     //con el dato borrado. Lo he intentado hacer con notifyItemRemoved
                     // pero no funciona... pq no se actualizaba la lista del adapter. Esta es la
                     //solución que le he dado. Hay que hacerlo más eficaz, pero funciona....
-                        viewModel.deleteImC(imc)
-                        setUpObservers()
+                    viewModel.deleteImC(imc)
+                    setUpObservers()
                 })
-                //si hace click en cancelar, no hacemos nada
+            //si hace click en cancelar, no hacemos nada
             .setNegativeButton(R.string.dialog_delete_cancel, null)
             .show()
     }
