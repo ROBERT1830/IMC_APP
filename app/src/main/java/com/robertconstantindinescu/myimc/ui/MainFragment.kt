@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.robertconstantindinescu.myimc.AppDatabase
 import com.robertconstantindinescu.myimc.R
 import com.robertconstantindinescu.myimc.data.DataSource
@@ -32,6 +33,7 @@ class MainFragment : Fragment(), MainAdapter.OnItemClickListener {
     //instancia lateinit del adapter para usarlo posteriormente. Se inicializa más tarde
     private lateinit var mAdapter: MainAdapter
     private lateinit var lista: List<ImcEntity>
+    private var txt: String? = null
 
 
 
@@ -57,6 +59,7 @@ class MainFragment : Fragment(), MainAdapter.OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
+//            txt = it.getString("imc")
 
         }
     }
@@ -98,11 +101,18 @@ class MainFragment : Fragment(), MainAdapter.OnItemClickListener {
 //        mBinding.fabAddCalcul.setOnClickListener {
 //            findNavController().navigate(R.id.action_mainFragment_to_calculatorFragment, bundle)
 //        }
+
+
     }
 
     override fun onResume() {
         super.onResume()
         setUpObservers()
+
+        // TODO: 14/11/21 COGER ARGUMENTOS DEL RESULTADO Y PASARLO A ESTE FRAGMENT.  
+//        if (requireArguments() == null){
+//            Snackbar.make(mBinding.root, "${txt}", Snackbar.LENGTH_SHORT)
+//        }
 
     }
 
@@ -170,6 +180,7 @@ class MainFragment : Fragment(), MainAdapter.OnItemClickListener {
 
                 }
             }
+
         })
     }
 

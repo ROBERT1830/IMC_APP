@@ -119,7 +119,7 @@ class CalculatorFragment : Fragment() {
                 // pulsando el botón de guardar también te hace el calculo en caso de que no pulses
                 // el de calcular. Se podría quitar por ejemplo el botón de calcular
                 // y dejar el de guardar que haga las dos funciones y el codigo queda mas limpio)
-                if (!btnCalcularClicked) {
+                //if (!btnCalcularClicked) {
                     tv_resultNum.text = calculateResultImc().toString()
                     resultNum = tv_resultNum.text.toString().toFloat()
                     tv_resultInfo.text = setResultInfo(resultNum)
@@ -158,7 +158,7 @@ class CalculatorFragment : Fragment() {
 //                         * sino insertamos.
 //                         */
 //                    }else insertImc(resultNum)
-                }
+                //}
 
                 //limpiamos los campos para poder meter mas
 
@@ -185,6 +185,7 @@ class CalculatorFragment : Fragment() {
         /**
          * insertamos llamando al viewModel. Pero haciendo la construcción del objeto y sus propiedades.
          */
+        // TODO: 14/11/21 HACER QUE SE GUARDE LA FEHCA AUTOMÁTICAMENTE.
         viewModel.insertImc(
             ImcEntity(
                 nombre = setName(),
@@ -195,6 +196,15 @@ class CalculatorFragment : Fragment() {
                 resultadoInfo = setResultInfo(resultNum)
             )
         )
+
+        val text: String = mBinding.tvResultInfo.text.toString()
+        val bundle = Bundle()
+        bundle.putString("imc", text)
+        val fragment = MainFragment()
+        fragment.arguments = bundle
+
+
+
     }
 
     private fun updateImc() {

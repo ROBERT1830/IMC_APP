@@ -34,7 +34,6 @@
 
 
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -43,7 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     tools:text="Sobrepeso" />
 
                 <TextView
@@ -51,16 +50,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:textAppearance="?attr/textAppearanceHeadline4"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     tools:text="25,86" />
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:maxLines="3"
+                    tools:text="Diciembre 18 2020"
+                    android:textSize="20sp"
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
             </LinearLayout>
+
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padd_min"
-                android:textAppearance="?attr/textAppearanceSubtitle1"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/li_layout_basicInfo"
                 app:layout_constraintTop_toTopOf="parent"
