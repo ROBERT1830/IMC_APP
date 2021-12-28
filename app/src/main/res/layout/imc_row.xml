@@ -2,113 +2,155 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/layout_border"
-    android:padding="@dimen/padd_min"
-    android:layout_margin="5dp"
+
+
+
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        android:id="@+id/li_layout_basicInfo"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/default_dp"
-        android:background="@color/my_color"
-        app:layout_constraintTop_toTopOf="parent"
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        app:cardBackgroundColor="@color/my_color"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:orientation="vertical">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_resultInfo"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="Sobrepeso"
-            android:textAlignment="center"
-            android:textAppearance="?attr/textAppearanceHeadline6" />
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_resultNum"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="25,86"
-            android:textAlignment="center"
-            android:textAppearance="?attr/textAppearanceHeadline4"/>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        tools:text="Robert Constantin Dinecu"
-        android:textAppearance="?attr/textAppearanceSubtitle1"
-        android:padding="@dimen/padd_min"
-        app:layout_constraintStart_toEndOf="@id/li_layout_basicInfo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <TextView
-        android:id="@+id/tv_sexo"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        tools:text="Mujer"
-        android:textStyle="bold"
-        android:layout_marginStart="@dimen/padd_min"
-        app:layout_constraintStart_toEndOf="@id/li_layout_basicInfo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_name"/>
-
-    <LinearLayout
-        android:id="@+id/li_layout_peso_altura"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:weightSum="2"
-        android:layout_marginStart="@dimen/padd_min"
-        app:layout_constraintStart_toEndOf="@id/li_layout_basicInfo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_sexo">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/padd_min">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_weight"
-                android:textStyle="bold"
-                android:layout_weight="1"/>
-            <TextView
-                android:id="@+id/tv_peso"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:text="30kg"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_height"
-                android:textStyle="bold"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:id="@+id/tv_altura"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:id="@+id/li_layout_basicInfo"
+                android:layout_width="150dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                tools:text="1,70m"/>
 
-        </LinearLayout>
-    </LinearLayout>
+
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_resultInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    tools:text="Sobrepeso" />
+
+                <TextView
+                    android:id="@+id/tv_resultNum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    tools:text="25,86" />
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:maxLines="3"
+                    tools:text="Diciembre 18 2020"
+                    android:textSize="20sp"
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padd_min"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/li_layout_basicInfo"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Robert Constantin Dinecu" />
+
+            <TextView
+                android:id="@+id/tv_sexo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padd_min"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/li_layout_basicInfo"
+                app:layout_constraintTop_toBottomOf="@id/tv_name"
+                tools:text="Mujer" />
+
+            <LinearLayout
+                android:id="@+id/li_layout_peso_altura"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padd_min"
+                android:orientation="vertical"
+                android:weightSum="2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/li_layout_basicInfo"
+                app:layout_constraintTop_toBottomOf="@id/tv_sexo">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padd_min"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/txt_weight"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_peso"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        tools:text="30kg" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/txt_height"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_altura"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        tools:text="1,70m" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
