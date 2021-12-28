@@ -6,6 +6,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
+import java.sql.Date
 
 
 /*Esta es nuestro modelo de datos. Usamos Entity para denotar que nuestor modelo de datos consiste en
@@ -32,7 +33,10 @@ data class ImcEntity(
     var resultadoNum: Float = 0F,
 
     @ColumnInfo(name = "resultado_info")
-    var resultadoInfo: String = ""
+    var resultadoInfo: String = "",
+
+    @ColumnInfo(name = "fecha")
+    var fecha: String
 
 
 //Aunqeu no lo hemos usado, es util tener un toString con los datos.

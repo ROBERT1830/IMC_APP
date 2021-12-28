@@ -25,14 +25,17 @@ class MainActivity : AppCompatActivity() {
         //accedemos al viewPager
         val viewPager = mBinding.viewPager
 
+        //instanciamos el adapter
         val adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
 
+        //añadimos abos fragmentos al adapter junto con el titulo.
         adapter.addFragment(MainFragment(), "Historico")
         adapter.addFragment(CalculatorFragment(), "Calcular Imc")
 
         viewPager.adapter = adapter
 
 
+        //coordinamos el Tablayout con el viewPager
         TabLayoutMediator(mBinding.tabLayout, viewPager){ tab, position ->
             tab.text = adapter.getPageTitle(position)
 

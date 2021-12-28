@@ -1,15 +1,12 @@
 package com.robertconstantindinescu.myimc.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import android.widget.Toast
-import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -18,12 +15,15 @@ import com.robertconstantindinescu.myimc.R
 import com.robertconstantindinescu.myimc.data.DataSource
 import com.robertconstantindinescu.myimc.data.model.ImcEntity
 import com.robertconstantindinescu.myimc.databinding.FragmentCalculatorBinding
-import com.robertconstantindinescu.myimc.databinding.FragmentMainBinding
 import com.robertconstantindinescu.myimc.domain.RepoImpl
 import com.robertconstantindinescu.myimc.ui.viewmodel.MainViewModel
 import com.robertconstantindinescu.myimc.ui.viewmodel.VMFactory
 import kotlinx.android.synthetic.main.fragment_calculator.*
-import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.fragment_calculator.tv_resultInfo
+import kotlinx.android.synthetic.main.fragment_calculator.tv_resultNum
+import java.sql.Date
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class CalculatorFragment : Fragment() {
@@ -46,6 +46,7 @@ class CalculatorFragment : Fragment() {
     private lateinit var radioButton: RadioButton
     private lateinit var imc: ImcEntity
     var fromRecycler: Boolean = false
+    var date: String? = null
 
 
     //vacío pq no pasamos argumentos por bundle a este fragment.
@@ -83,10 +84,7 @@ class CalculatorFragment : Fragment() {
          * Pero si es diferente de cero llamaos a setUi para rellenar los campos
          * e indicamos que venimos del recycler.
          */
-//        if(imc.imcId != 0L){
-//            setUi(imc)
-//            fromRecycler = true
-//        }
+
 
         //variable bool para marcas si se ha clicado el btn calcular.
         var btnCalcularClicked = false
@@ -95,22 +93,6 @@ class CalculatorFragment : Fragment() {
         //varaible para almacenar el resultado de la operacion imc.
         var resultNum: Float = 0F
 
-        //listener para el botón de caluclar.
-//        mBinding.btnCalcular.setOnClickListener {
-//            //marcamos btn calcular clicked a true
-//            btnCalcularClicked = true
-//            //si se han validado los campo
-//            if (validateFields()) {
-//                //al tv resultado le seteamos el texto correspondiente del resultado llamando a la
-//                //funcion calculateResultImc.
-//                tv_resultNum.text = calculateResultImc().toString()
-//                resultNum = tv_resultNum.text.toString().toFloat()
-//                //con el dato obtenido del cáculo, seteamos el texto correspondiente en función
-//                //del resultado y el sexo.
-//                tv_resultInfo.text = setResultInfo(resultNum)
-//
-//            }
-//        }
         //listener para boton de save.
         mBinding.btnSave.setOnClickListener {
             //si se han validado los campos
@@ -120,6 +102,7 @@ class CalculatorFragment : Fragment() {
                 // el de calcular. Se podría quitar por ejemplo el botón de calcular
                 // y dejar el de guardar que haga las dos funciones y el codigo queda mas limpio)
                 //if (!btnCalcularClicked) {
+                    getCurrentDate()
                     tv_resultNum.text = calculateResultImc().toString()
                     resultNum = tv_resultNum.text.toString().toFloat()
                     tv_resultInfo.text = setResultInfo(resultNum)
@@ -132,51 +115,36 @@ class CalculatorFragment : Fragment() {
                         .setTitle(R.string.dialog_options_menu2)
                         .setItems(items) { dialogInterface, i ->
                             when (i) {
-                                //si el usuario pulsa la primera opcion, llamamos a un metodo para confirmar
-                                //la eliminacion
                                 0 -> {
                                     insertImc(resultNum)
                                     clearFields()
+                                    Snackbar.make(
+                                        mBinding.root,
+                                        getString(R.string.save_succesfully),
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
+
                                 }
-                                //está por implementar. Abriremos el email para mandar un correo al entrenador
-                                //personal con tus datos de imc.
-                                1 -> Snackbar.make(
-                                    mBinding.root,
-                                    getString(R.string.save_unSuccesfully),
-                                    Snackbar.LENGTH_SHORT
-                                ).show()
+                                1 -> {
+                                    return@setItems
+                                }
                             }
                         }.show()
 
-                    /**
-                     * si resulta que venimos haber hecho clicl en un elemento del recycler
-                     * hacemos el update
-                     */
-//                    if(fromRecycler){
-//                        updateImc()
-//                        /**
-//                         * sino insertamos.
-//                         */
-//                    }else insertImc(resultNum)
-                //}
-
-                //limpiamos los campos para poder meter mas
-
-
-
-
-                //mensaje de éxito en el guardado
-//                Toast.makeText(requireContext(), getString(R.string.save_succesfully),
-//                    Toast.LENGTH_SHORT).show()
-
-                Snackbar.make(
-                    mBinding.root,
-                    getString(R.string.save_succesfully),
-                    Snackbar.LENGTH_SHORT
-                ).show()
             }
 
         }
+    }
+
+    /**
+     * Método que obtiene la fecha directamente con el formato adecuado en el que se indica el mes con
+     * el respectivo nombre.
+     */
+    private fun getCurrentDate() {
+        val d = Calendar.getInstance().time
+        val dateFormat = SimpleDateFormat("dd-MMMM-yyyy", Locale("es", "ES"))
+        val strDate = dateFormat.format(d)
+        date = strDate
     }
 
 
@@ -193,7 +161,10 @@ class CalculatorFragment : Fragment() {
                 altura = etHeight.text.toString().toFloat(),
                 sexo = radioButton.text.toString(),
                 resultadoNum = tv_resultNum.text.toString().toFloat(),
-                resultadoInfo = setResultInfo(resultNum)
+                resultadoInfo = setResultInfo(resultNum),
+                fecha = date!!
+
+
             )
         )
 

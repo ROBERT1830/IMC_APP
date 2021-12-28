@@ -29,8 +29,8 @@
     <string name="dialog_delete_title">¿Eliminar dato?</string>
     <string name="dialog_delete_cancel">Cancelar</string>
     <string name="dialog_contact_email">Contactar por email</string>
-    <string name="dialog_save">¡Sí QUIERO!</string>
-    <string name="dialog_noSave">¡No QUIERO!</string>
+    <string name="dialog_save">¡ACEPTAR!</string>
+    <string name="dialog_noSave">¡CANCELAR!</string>
 
     <string name="dialog_options_menu">¿Qué desea hacer?</string>
     <string name="dialog_options_menu2">¿Desea guardar la información obtenida para el histórico?</string>

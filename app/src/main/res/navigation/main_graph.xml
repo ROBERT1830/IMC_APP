@@ -18,6 +18,10 @@
         android:id="@+id/calculatorFragment"
         android:name="com.robertconstantindinescu.myimc.ui.CalculatorFragment"
         android:label="Calculadora IMC"
-        tools:layout="@layout/fragment_calculator" />
+        tools:layout="@layout/fragment_calculator" >
+        <action
+            android:id="@+id/action_calculatorFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 
 </navigation>
