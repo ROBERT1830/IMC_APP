@@ -22,5 +22,8 @@ interface ImcDao {
     @Delete
     suspend fun deleteImc(imcRecord: ImcEntity)
 
+    @Query("DELETE FROM imc_table WHERE imcId = :id")
+    suspend fun deleteById(id:Int)
+
 
 }

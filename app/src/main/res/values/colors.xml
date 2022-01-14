@@ -13,5 +13,6 @@
 
 
     <color name="LightMediumGray">#80D1D1D1</color>
+    <color name="deletecolor">#EE2011</color>
 
 </resources>

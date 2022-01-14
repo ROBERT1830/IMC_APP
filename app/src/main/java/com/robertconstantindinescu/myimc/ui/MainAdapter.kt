@@ -29,6 +29,7 @@ class MainAdapter(private val context: Context, private var listaImc: List<ImcEn
         notifyDataSetChanged()
     }
 
+
     //Retorna la vista inflada con todoso los datos  unidos.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
 

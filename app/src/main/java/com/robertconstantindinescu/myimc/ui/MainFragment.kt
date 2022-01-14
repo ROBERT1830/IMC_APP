@@ -9,10 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.robertconstantindinescu.myimc.AppDatabase
@@ -23,8 +22,11 @@ import com.robertconstantindinescu.myimc.databinding.FragmentMainBinding
 import com.robertconstantindinescu.myimc.domain.RepoImpl
 import com.robertconstantindinescu.myimc.ui.viewmodel.MainViewModel
 import com.robertconstantindinescu.myimc.ui.viewmodel.VMFactory
+import com.robertconstantindinescu.myimc.util.SwipeGesture
 import com.robertconstantindinescu.myimc.vo.Resource
 import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainFragment : Fragment(), MainAdapter.OnItemClickListener {
 
@@ -33,7 +35,7 @@ class MainFragment : Fragment(), MainAdapter.OnItemClickListener {
 
     //instancia lateinit del adapter para usarlo posteriormente. Se inicializa más tarde
     private lateinit var mAdapter: MainAdapter
-    private lateinit var lista: List<ImcEntity>
+    private lateinit var lista: ArrayList<ImcEntity>
     private var txt: String? = null
 
 
@@ -86,7 +88,7 @@ class MainFragment : Fragment(), MainAdapter.OnItemClickListener {
         //Función que setea el recicler view.
         setupRecyclerView()
         //Función que setea los observadores de LiveData del viewModel. (Explicado bajo)
-        //setUpObservers()
+        setUpObservers()
 
 
         //retornamos la raíz
@@ -121,6 +123,41 @@ class MainFragment : Fragment(), MainAdapter.OnItemClickListener {
         super.onResume()
         setUpObservers()
 
+        mAdapter = MainAdapter(requireContext(), listOf(), this)
+
+        /**
+         * Usamos un objeto de la clase abstracta que nos hemos definido para hacer el gesto.
+         * Esta clase hereda de ItemTouchHelper que a su vez tiene una serie de méodos. Entre
+         * ellos está el onSwiped. Dentro de este método, cuando se haga el swipe left vamos a eliminar
+         * un objeto imc de la base de datos.
+         * para ello debemos de obtener ese imc de la posición en la que se ha hecho swipe.
+         * La posición la obtenemos usando el viewHolder sobre el que se ha acutado.
+         * a partir de ahi, eliminamos de la lsita y refrescamos la pantalla.
+         */
+        val swipeGesture = object : SwipeGesture(requireContext()){
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
+                when(direction){
+                    ItemTouchHelper.LEFT ->{
+
+                        val positionSwiped = viewHolder.absoluteAdapterPosition
+                        val imcObject: ImcEntity = lista[positionSwiped]
+                        Log.d("beforeRemove-lista", lista.size.toString())
+                        lista.removeAt(positionSwiped)
+                        Log.d("afterRemove-lista", lista.size.toString())
+                        //viewModel.deleteImcById(positionSwiped)
+                        viewModel.deleteImC(imcObject)
+                        setUpObservers()
+
+                    }
+                }
+
+            }
+        }
+
+        val touchHelper = ItemTouchHelper(swipeGesture)
+        touchHelper.attachToRecyclerView(mBinding.rvImcList)
+
         // TODO: 14/11/21 COGER ARGUMENTOS DEL RESULTADO Y PASARLO A ESTE FRAGMENT.  
 //        if (requireArguments() == null){
 //            Snackbar.make(mBinding.root, "${txt}", Snackbar.LENGTH_SHORT)
@@ -129,10 +166,31 @@ class MainFragment : Fragment(), MainAdapter.OnItemClickListener {
     }
 
 
+
+
     private fun setupRecyclerView() {
         //Inicializamos el adaptador, pasando el contexto, una lista vacia y la interfáz
         //que es this pq esta misma clase implementa la interfáz del adaptador que define el click.
+
+
+
+
         mAdapter = MainAdapter(requireContext(), listOf(), this)
+
+//        val swipeGesture = object : SwipeGesture(requireContext()){
+//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+//
+//                when(direction){
+//                    ItemTouchHelper.LEFT ->{
+//
+//                    }
+//                }
+//
+//            }
+//        }
+//
+//        val touchHelper = ItemTouchHelper(swipeGesture)
+//        touchHelper.attachToRecyclerView(mBinding.rvImcList)
         //Aplicamos ciertas características al adaptador y lo seteamos.
         mBinding.rvImcList.apply {
             //todos los elementos tendrán el mismo tamaño
@@ -185,7 +243,7 @@ class MainFragment : Fragment(), MainAdapter.OnItemClickListener {
                             it.imcId, it.nombre, it.peso, it.altura, it.sexo, it.resultadoNum,
                             it.resultadoInfo, it.fecha
                         )
-                    }
+                    } as ArrayList<ImcEntity>
                     Log.d("LISTA", lista.toString())
                     //Esa lista creada automaticametnen por el map, la pasamos aqui al adapter.
                     //mAdapter.setImcList(lista)
