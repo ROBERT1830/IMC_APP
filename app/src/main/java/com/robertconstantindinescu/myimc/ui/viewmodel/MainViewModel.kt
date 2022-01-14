@@ -58,8 +58,14 @@ class MainViewModel(private val repo: Repo): ViewModel() {
         viewModelScope.launch {
              repo.deleteImc(imcEntity)
         }
-
-
     }
+
+    fun deleteImcById(id: Int){
+        viewModelScope.launch {
+            repo.deleteImcById(id)
+        }
+    }
+
+
 
 }

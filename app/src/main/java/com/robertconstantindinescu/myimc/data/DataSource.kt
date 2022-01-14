@@ -37,4 +37,8 @@ class DataSource(private val appDatabase: AppDatabase) {
     suspend fun deleteImc(imcEntity: ImcEntity){
           appDatabase.imcDao().deleteImc(imcEntity)
     }
+
+    suspend fun deleteImcById(id: Int){
+        appDatabase.imcDao().deleteById(id)
+    }
 }

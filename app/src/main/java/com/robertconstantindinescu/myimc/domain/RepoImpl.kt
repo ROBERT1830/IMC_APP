@@ -34,4 +34,10 @@ class RepoImpl(private val dataSource: DataSource): Repo {
     override suspend fun deleteImc(imcEntity: ImcEntity) {
          dataSource.deleteImc(imcEntity)
     }
+
+    override suspend fun deleteImcById(id: Int) {
+
+        dataSource.deleteImcById(id)
+
+    }
 }

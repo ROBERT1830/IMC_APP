@@ -11,6 +11,7 @@ interface Repo {
     suspend fun insertImc(imcEntity: ImcEntity)
     suspend fun updateImc(imcEntity: ImcEntity): Int
     suspend fun deleteImc(imcEntity: ImcEntity)
+    suspend fun deleteImcById(id:Int)
 
 
 
